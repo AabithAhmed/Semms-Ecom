@@ -17,7 +17,7 @@ const Products = () => {
   const categoryFilter = searchParams.get("category") || "";
   const searchFilter = searchParams.get("search") || "";
   const [sortBy, setSortBy] = useState("newest");
-  const [priceRange, setPriceRange] = useState([0, 4000]);
+  const [priceRange, setPriceRange] = useState([0, 100000]);
   const [showFilters, setShowFilters] = useState(false);
 
   // Fetch Categories

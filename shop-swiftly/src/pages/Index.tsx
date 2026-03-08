@@ -32,14 +32,7 @@ const scaleIn = {
   }),
 } as const;
 
-const categoryStyles = [
-  { icon: Monitor, gradient: "from-blue-600 to-blue-800" },
-  { icon: Laptop, gradient: "from-cyan-500 to-blue-600" },
-  { icon: Printer, gradient: "from-red-500 to-red-700" },
-  { icon: Keyboard, gradient: "from-purple-500 to-indigo-600" },
-  { icon: Speaker, gradient: "from-orange-500 to-red-500" },
-  { icon: Headphones, gradient: "from-emerald-500 to-teal-600" },
-];
+const fallbackStyle = { icon: Monitor, gradient: "from-blue-600 to-blue-800" };
 
 const Index = () => {
   const { data } = useQuery({
@@ -269,7 +262,7 @@ const Index = () => {
             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5"
           >
             {categories.map((cat: any, index: number) => {
-              const style = categoryStyles[index % categoryStyles.length];
+              const style = fallbackStyle;
               const Icon = style.icon;
               return (
                 <motion.div key={cat.id} variants={scaleIn} custom={index}>

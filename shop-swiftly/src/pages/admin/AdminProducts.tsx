@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Plus, Search, Loader2, ImageIcon, Edit } from "lucide-react";
+import { Plus, Search, Loader2, ImageIcon, Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -65,6 +65,17 @@ const AdminProducts = () => {
     },
     onError: (error: any) => {
       toast.error(error.message || "Failed to update product");
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: api.deleteProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["adminProducts"] });
+      toast.success("Product deleted successfully!");
+    },
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to delete product");
     },
   });
 
@@ -314,6 +325,20 @@ const AdminProducts = () => {
                   <td className="px-4 py-3 text-right">
                     <Button variant="ghost" size="icon" onClick={() => openEdit(p)}>
                       <Edit className="h-4 w-4 text-muted-foreground" />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="text-destructive"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (confirm("Are you sure you want to delete this product?")) {
+                          deleteMutation.mutate(p.id);
+                        }
+                      }}
+                      disabled={deleteMutation.isPending}
+                    >
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                   </td>
                 </tr>
