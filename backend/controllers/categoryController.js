@@ -39,6 +39,9 @@ exports.createCategory = async (req, res) => {
         res.status(201).json(rows[0]);
     } catch (error) {
         console.error('Create category error:', error);
+        if (error.code === '23505') {
+            return res.status(400).json({ error: 'A category with this name already exists' });
+        }
         res.status(500).json({ error: 'Internal server error' });
     }
 };

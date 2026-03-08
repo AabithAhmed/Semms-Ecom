@@ -60,6 +60,10 @@ export const api = {
         const { data } = await apiInstance.get("/categories");
         return data;
     },
+    createCategory: async (categoryData: any) => {
+        const { data } = await apiInstance.post("/categories", categoryData);
+        return data;
+    },
     deleteCategory: async (id: string) => {
         const { data } = await apiInstance.delete(`/categories/${id}`);
         return data;

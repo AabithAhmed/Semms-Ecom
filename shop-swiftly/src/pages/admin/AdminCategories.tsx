@@ -1,7 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/services/api";
-import axios from "axios";
-const apiInstance = axios.create({ baseURL: "/api", withCredentials: true });
 import { Button } from "@/components/ui/button";
 import { Plus, Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -29,7 +27,7 @@ const AdminCategories = () => {
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: any) => apiInstance.post("/categories", data).then(r => r.data),
+    mutationFn: (data: any) => api.createCategory(data),
     onSuccess: () => {
       toast.success("Category created successfully");
       queryClient.invalidateQueries({ queryKey: ["categories"] });
